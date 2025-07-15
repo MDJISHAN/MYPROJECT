@@ -3,9 +3,10 @@ import Modal from './Modal';
 import SignInModal from './SignInModal';
 import './MainPage.css';
 
-const MainPage = () => {
+const MainPage = ({ onSuccessfulLogin }) => {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [email, setEmail] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openSignInModal = () => {
     setIsSignInModalOpen(true);
@@ -21,6 +22,10 @@ const MainPage = () => {
     setEmail('');
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="main-page">
       {/* Header */}
@@ -30,7 +35,7 @@ const MainPage = () => {
             <span className="logo-text">StockFlex</span>
           </div>
           
-          <nav className="nav">
+          <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>
             <a href="#home">Home</a>
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
@@ -42,6 +47,11 @@ const MainPage = () => {
           <div className="header-buttons">
             <button className="login-btn" onClick={openSignInModal}>Login</button>
             <button className="get-started-btn" onClick={openSignInModal}>Get Started</button>
+            <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
         </div>
       </header>
@@ -1016,7 +1026,7 @@ const MainPage = () => {
 
       {/* Sign In Modal */}
       <Modal isOpen={isSignInModalOpen} onClose={closeSignInModal}>
-        <SignInModal onClose={closeSignInModal} />
+        <SignInModal onClose={closeSignInModal} onSuccessfulLogin={onSuccessfulLogin} />
       </Modal>
     </div>
   );

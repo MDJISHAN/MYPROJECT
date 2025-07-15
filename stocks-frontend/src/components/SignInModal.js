@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './SignInModal.css';
 
-const SignInModal = ({ onClose }) => {
+const SignInModal = ({ onClose, onSuccessfulLogin }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -14,14 +16,36 @@ const SignInModal = ({ onClose }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your authentication logic here
-    // For now, just close the modal
-    onClose();
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simple validation (in real app, this would be server-side)
+      if (formData.email && formData.password) {
+        // Store user data in localStorage (in real app, use proper auth)
+        localStorage.setItem('user', JSON.stringify({
+          email: formData.email,
+          isAuthenticated: true
+        }));
+        
+        onSuccessfulLogin();
+        onClose();
+      } else {
+        setError('Please enter both email and password');
+      }
+    } catch (error) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -122,8 +146,14 @@ const SignInModal = ({ onClose }) => {
               </a>
             </div>
             
-            <button type="submit" className="modal-signin-button">
-              Sign In
+            {error && (
+              <div className="modal-error-message">
+                {error}
+              </div>
+            )}
+            
+            <button type="submit" className="modal-signin-button" disabled={isLoading}>
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
           
