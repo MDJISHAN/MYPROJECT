@@ -47,7 +47,7 @@ const MainPage = ({ onSuccessfulLogin }) => {
           <div className="header-buttons">
             <button className="login-btn" onClick={openSignInModal}>Login</button>
             <button className="get-started-btn" onClick={openSignInModal}>Get Started</button>
-            <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+            <button className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
               <span></span>
               <span></span>
               <span></span>

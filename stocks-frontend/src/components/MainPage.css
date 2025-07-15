@@ -40,17 +40,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+  position: relative;
 }
 
 .logo {
   font-size: 1.8rem;
   font-weight: 700;
   color: #8B5CF6;
+  z-index: 1001;
 }
 
 .nav {
   display: flex;
   gap: 2rem;
+  transition: all 0.3s ease;
 }
 
 .nav a {
@@ -83,6 +86,7 @@
 .header-buttons {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .login-btn {
@@ -94,6 +98,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .login-btn:hover {
@@ -111,6 +116,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .get-started-btn:hover {
@@ -135,10 +141,25 @@
   height: 2px;
   background: #8B5CF6;
   transition: all 0.3s ease;
+  border-radius: 2px;
+  transform-origin: center;
 }
 
 .mobile-menu-toggle:hover span {
   background: #6D28D9;
+}
+
+/* Hamburger menu animation */
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
 }
 
 /* Hero Section */
@@ -2167,32 +2188,36 @@
 
 @media (max-width: 768px) {
   .header-container {
-    flex-wrap: wrap;
-    gap: 1rem;
+    padding: 0 1rem;
   }
   
   .nav {
     display: none;
     width: 100%;
     order: 3;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+    z-index: 999;
   }
   
   .nav.nav-open {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.95);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    padding: 1rem 2rem;
-    border-top: 1px solid rgba(139, 92, 246, 0.2);
+    padding: 1rem 2rem 2rem;
     gap: 1rem;
+    animation: slideDown 0.3s ease-out;
   }
   
   .nav.nav-open a {
     padding: 0.8rem 0;
     border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    color: white;
+    font-size: 1.1rem;
   }
   
   .nav.nav-open a:last-child {
@@ -2203,13 +2228,25 @@
     gap: 0.5rem;
   }
   
-  .header-buttons button {
+  .header-buttons .login-btn,
+  .header-buttons .get-started-btn {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
   
   .mobile-menu-toggle {
     display: flex;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .hero-title {
@@ -2269,6 +2306,28 @@
     padding: 0 1rem;
   }
   
+  .header-container {
+    padding: 0 0.5rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .nav.nav-open {
+    padding: 1rem 1rem 2rem;
+  }
+  
+  .header-buttons {
+    gap: 0.3rem;
+  }
+  
+  .header-buttons .login-btn,
+  .header-buttons .get-started-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
   .hero {
     padding: 6rem 1rem 2rem;
   }
@@ -2296,7 +2355,7 @@
   .why-choose,
   .subscriptions,
   .about-us {
-    padding: 4rem 1rem;
+    padding: 3rem 1rem;
   }
   
   .mover-tabs {
@@ -2333,5 +2392,43 @@
   
   .social-links {
     justify-content: center;
+  }
+}
+
+/* Additional responsive breakpoint for tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .header-container {
+    padding: 0 1.5rem;
+  }
+  
+  .nav {
+    gap: 1.5rem;
+  }
+  
+  .hero-phones {
+    gap: 1.5rem;
+  }
+  
+  .phone {
+    width: 220px;
+    height: 440px;
+  }
+  
+  .sector-grid,
+  .sector-data-grid,
+  .choose-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .subscription-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
