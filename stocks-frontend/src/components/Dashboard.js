@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import SectorRotation from './SectorRotation';
 import IntradayScan from './IntradayScan';
 import NiftyRealty from './NiftyRealty';
+import MomentumRadar from './MomentumRadar';
+import Heatmap from './Heatmap';
+import OilMonitor from './OilMonitor';
 import './Dashboard.css';
 
 const Dashboard = ({ onLogout }) => {
@@ -67,11 +70,15 @@ const Dashboard = ({ onLogout }) => {
   }
   
   if (currentPage === 'oil-monitor') {
-    return <IntradayScan onBack={handleBackToDashboard} scanType="volume" />;
+    return <OilMonitor onBack={handleBackToDashboard} />;
   }
   
   if (currentPage === 'momentum-radar') {
-    return <IntradayScan onBack={handleBackToDashboard} scanType="intraday-boost" />;
+    return <MomentumRadar onBack={handleBackToDashboard} />;
+  }
+  
+  if (currentPage === 'heatmap') {
+    return <Heatmap onBack={handleBackToDashboard} />;
   }
 
   // Default dashboard view
