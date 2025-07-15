@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import SectorRotation from './SectorRotation';
+import IntradayScan from './IntradayScan';
+import NiftyRealty from './NiftyRealty';
 import './Dashboard.css';
 
 const Dashboard = ({ onLogout }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -11,7 +15,69 @@ const Dashboard = ({ onLogout }) => {
 
   const handleGetStarted = (toolName) => {
     console.log('Getting started with:', toolName);
+    // Navigate to the appropriate page based on tool name
+    switch(toolName) {
+      case 'Sector Rotation':
+        setCurrentPage('sector-rotation');
+        break;
+      case 'Intraday Scan':
+        setCurrentPage('intraday-scan');
+        break;
+      case 'Swing Zone':
+        setCurrentPage('nifty-realty');
+        break;
+      case 'Oil Monitor':
+        setCurrentPage('oil-monitor');
+        break;
+      case 'Momentum Radar':
+        setCurrentPage('momentum-radar');
+        break;
+      case 'Heatmap':
+        setCurrentPage('heatmap');
+        break;
+      case 'Index Movers':
+        setCurrentPage('index-movers');
+        break;
+      case 'Block Deals':
+        setCurrentPage('block-deals');
+        break;
+      case 'Traders Diary':
+        setCurrentPage('traders-diary');
+        break;
+      default:
+        setCurrentPage('dashboard');
+    }
   };
+
+  const handleBackToDashboard = () => {
+    setCurrentPage('dashboard');
+  };
+
+  // Render different pages based on current page
+  if (currentPage === 'sector-rotation') {
+    return <SectorRotation onBack={handleBackToDashboard} />;
+  }
+  
+  if (currentPage === 'intraday-scan') {
+    return <IntradayScan onBack={handleBackToDashboard} scanType="intraday" />;
+  }
+  
+  if (currentPage === 'nifty-realty') {
+    return <NiftyRealty onBack={handleBackToDashboard} />;
+  }
+  
+  if (currentPage === 'oil-monitor') {
+    return <IntradayScan onBack={handleBackToDashboard} scanType="volume" />;
+  }
+  
+  if (currentPage === 'momentum-radar') {
+    return <IntradayScan onBack={handleBackToDashboard} scanType="intraday-boost" />;
+  }
+
+  // Default dashboard view
+  return renderDashboard();
+
+  function renderDashboard() {
 
   const tradingTools = [
     {
@@ -375,6 +441,7 @@ const Dashboard = ({ onLogout }) => {
       </footer>
     </div>
   );
+  }
 };
 
 export default Dashboard;
